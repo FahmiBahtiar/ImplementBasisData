@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit KRS</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit KRS</h1>
+    <form id="krs-form" action="/krs/update/<%= krs.nim %>" method="POST">
+        <select name="nim" required>
+            <option value="" disabled>Select NIM</option>
+            <% mahasiswa.forEach(m => { %>
+                <option value="<%= m.nim %>" <%= m.nim === krs.nim ? 'selected' : '' %>><%= m.nim %></option>
+            <% }); %>
+        </select>
+        <select name="kode_mk" required>
+            <option value="" disabled>Select Kode MK</option>
+            <% mataKuliah.forEach(mk => { %>
+                <option value="<%= mk.kode_mk %>" <%= mk.kode_mk === krs.kode_mk ? 'selected' : '' %>><%= mk.kode_mk %></option>
+            <% }); %>
+        </select>
+        <input type="text" name="kelp" placeholder="Kelp" value="<%= krs.kelp %>" required>
+        <input type="text" name="ta" placeholder="TA" value="<%= krs.ta %>" required>
+        <input type="text" name="smt" placeholder="SMT" value="<%= krs.smt %>" required>
+        <button type="submit">Update KRS</button>
+    </form>
+</div>
+</body>
+</html>

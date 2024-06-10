@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRS Data</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>KRS Data</h1>
+    <form id="krs-form" action="/krs" method="POST">
+        <select name="nim" required>
+            <option value="" disabled selected>Select NIM</option>
+            <% mahasiswa.forEach(m => { %>
+                <option value="<%= m.nim %>"><%= m.nim %></option>
+            <% }); %>
+        </select>
+        <select name="kode_mk" required>
+            <option value="" disabled selected>Select Kode MK</option>
+            <% mataKuliah.forEach(mk => { %>
+                <option value="<%= mk.kode_mk %>"><%= mk.kode_mk %></option>
+            <% }); %>
+        </select>
+        <input type="text" name="kelp" placeholder="Kelp" required>
+        <input type="text" name="ta" placeholder="TA" required>
+        <input type="text" name="smt" placeholder="SMT" required>
+        <button type="submit">Add KRS</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>NIM</th>
+            <th>Kode MK</th>
+            <th>Kelp</th>
+            <th>TA</th>
+            <th>SMT</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% krsData.forEach(krs => { %>
+            <tr>
+                <td><%= krs.nim %></td>
+                <td><%= krs.kode_mk %></td>
+                <td><%= krs.kelp %></td>
+                <td><%= krs.ta %></td>
+                <td><%= krs.smt %></td>
+                <td>
+                    <a  href="/krs/edit/<%= krs.nim %>">Edit</a>
+                    <form id="delete-form-<%= krs.nim %>-<%= krs.kode_mk %>" action="/krs/delete/<%= krs.nim %>/<%= krs.kode_mk %>?_method=DELETE" method="POST" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="button" onclick="confirmDelete('<%= krs.nim %>', '<%= krs.kode_mk %>')">Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <button type="button" onclick="window.location.href='/krslog'">View KRS Log</button>
+</div>
+</body>
+</html>
+<script>
+    function confirmDelete(nim, kode_mk) {
+        if (confirm("Are you sure you want to delete this KRS entry?")) {
+            document.getElementById('delete-form-' + nim + '-' + kode_mk).submit();
+        }
+    }
+</script>
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRS Log Data</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>KRS Log Data</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID Log</th>
+            <th>Tanggal</th>
+            <th>Kode Status</th>
+            <th>Keterangan</th>
+            <th>NIM</th>
+            <th>Kode MK</th>
+            <th>Kelp</th>
+            <th>TA</th>
+            <th>SMT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% krslogData.forEach(log => { %>
+            <tr>
+                <td><%= log.idlog %></td>
+                <td><%= log.tgl %></td>
+                <td><%= log.kode_status %></td>
+                <td><%= log.keterangan %></td>
+                <td><%= log.nim %></td>
+                <td><%= log.kode_mk %></td>
+                <td><%= log.kelp %></td>
+                <td><%= log.ta %></td>
+                <td><%= log.smt %></td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
