@@ -47,7 +47,7 @@
                 <td><%= krs.ta %></td>
                 <td><%= krs.smt %></td>
                 <td>
-                    <a  href="/krs/edit/<%= krs.nim %>">Edit</a>
+                    <a href="/krs/edit/<%= krs.nim %>/<%= krs.kode_mk %>">Edit</a>
                     <form id="delete-form-<%= krs.nim %>-<%= krs.kode_mk %>" action="/krs/delete/<%= krs.nim %>/<%= krs.kode_mk %>?_method=DELETE" method="POST" style="display:inline;">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="button" onclick="confirmDelete('<%= krs.nim %>', '<%= krs.kode_mk %>')">Delete</button>

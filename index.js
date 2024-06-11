@@ -19,8 +19,8 @@ app.use(methodOverride('_method'));
 // Database connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'vina',
-    password: 'vina',
+    user: 'root',
+    password: '',
     database: 'dbakademik'
 });
 
@@ -77,17 +77,18 @@ app.post('/krs', (req, res) => {
 });
 
 // Render the update form
-app.get('/krs/edit/:nim', (req, res) => {
+app.get('/krs/edit/:nim/:kode_mk', (req, res) => {
     const nim = req.params.nim;
+    const kode_mk = req.params.kode_mk;
 
     const fetchKRS = new Promise((resolve, reject) => {
-        db.query('SELECT * FROM krs WHERE nim = ?', [nim], (err, result) => {
-            if (err){
+        db.query('SELECT * FROM krs WHERE nim = ? AND kode_mk = ?', [nim, kode_mk], (err, result) => {
+            if (err) {
                 console.error(err);
                 res.status(500).send('Error fetching KRS entry');
-            }else if (nim === null || result.length === 0){
+            } else if (result.length === 0) {
                 res.status(404).send('KRS entry not found');
-            }else{
+            } else {
                 resolve(result[0]);
             }
         });
@@ -95,12 +96,12 @@ app.get('/krs/edit/:nim', (req, res) => {
 
     const fetchMahasiswa = new Promise((resolve, reject) => {
         db.query('SELECT nim FROM mahasiswa', (err, results) => {
-            if (err){
+            if (err) {
                 console.error(err);
                 res.status(500).send('Error fetching Mahasiswa data');
-            }else if (results.length === 0){
+            } else if (results.length === 0) {
                 res.status(404).send('No Mahasiswa data found');
-            }else{
+            } else {
                 resolve(results);
             }
         });
@@ -108,12 +109,12 @@ app.get('/krs/edit/:nim', (req, res) => {
 
     const fetchMataKuliah = new Promise((resolve, reject) => {
         db.query('SELECT kode_mk FROM matakuliah', (err, results) => {
-            if (err){
+            if (err) {
                 console.error(err);
                 res.status(500).send('Error fetching Mata Kuliah data');
-            }else if (results.length === 0){
+            } else if (results.length === 0) {
                 res.status(404).send('No Mata Kuliah data found');
-            }else{
+            } else {
                 resolve(results);
             }
         });
@@ -134,16 +135,17 @@ app.get('/krs/edit/:nim', (req, res) => {
 });
 
 // Handle the update submission
-app.post('/krs/update/:nim', (req, res) => {
+app.post('/krs/update/:nim/:kode_mk', (req, res) => {
     const nim = req.params.nim;
-    const {kode_mk, kelp, ta, smt } = req.body;
-    const sql = 'UPDATE krs SET kode_mk = ?, kelp = ?, ta = ?, smt = ? WHERE nim = ?';
-    db.query(sql, [kode_mk, kelp, ta, smt, nim], (err, result) => {
+    const kode_mk = req.params.kode_mk;
+    const { kelp, ta, smt } = req.body;
+    const sql = 'UPDATE krs SET kelp = ?, ta = ?, smt = ? WHERE nim = ? AND kode_mk = ?';
+    db.query(sql, [kelp, ta, smt, nim, kode_mk], (err, result) => {
         if (err) {
             console.error(err);
             res.status(500).send('Error updating KRS entry');
         } else {
-            console.log(`KRS entry for nim ${nim} updated`);
+            console.log(`KRS entry for nim ${nim} and kode_mk ${kode_mk} updated`);
             res.redirect('/');
         }
     });

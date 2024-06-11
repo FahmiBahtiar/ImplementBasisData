@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h1>Edit KRS</h1>
-    <form id="krs-form" action="/krs/update/<%= krs.nim %>" method="POST">
+    <form id="krs-form" action="/krs/update/<%= krs.nim %>/<%= krs.kode_mk %>" method="POST">
         <select name="nim" required>
             <option value="" disabled>Select NIM</option>
             <% mahasiswa.forEach(m => { %>
